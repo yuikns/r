@@ -1,6 +1,6 @@
 [package]
 name = "r"
-version = "0.0.4"
+version = "0.0.5"
 authors = ["Yu Jing <yu@argcv.com>"]
 
 # A short blurb about the package. This is not rendered in any format when
@@ -20,10 +20,16 @@ readme = "README.md"
 # package.
 keywords = ["utils", "ML", "IR"]
 
+# This is a string description of the license for this package. Currently
+# crates.io will validate the license provided against a whitelist of known
+# license identifiers from http://spdx.org/licenses/. Multiple licenses can
+# be separated with a `/`
+license = "MIT"
+
 # If a project is using a nonstandard license, then this key may be specified in
 # lieu of the above key and must point to a file relative to this manifest
 # (similar to the readme key)
-license-file = "LICENSE"
+#license-file = "LICENSE"
 
 [lib]
 name = "r"
