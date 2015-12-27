@@ -1,0 +1,42 @@
+[package]
+name = "r"
+version = "0.0.4"
+authors = ["Yu Jing <yu@argcv.com>"]
+
+# A short blurb about the package. This is not rendered in any format when
+# uploaded to crates.io (aka this is not markdown)
+description = "a set of utils"
+
+# These URLs point to more information about the repository
+documentation = "https://github.com/yuikns/r/blob/master/README.md"
+homepage = "https://argcv.com/articles/4171.c"
+repository = "https://github.com/yuikns/r.git"
+
+# This points to a file in the repository (relative to this Cargo.toml). The
+# contents of this file are stored and indexed in the registry.
+readme = "README.md"
+
+# This is a small list of keywords used to categorize and search for this
+# package.
+keywords = ["utils", "ML", "IR"]
+
+# If a project is using a nonstandard license, then this key may be specified in
+# lieu of the above key and must point to a file relative to this manifest
+# (similar to the readme key)
+license-file = "LICENSE"
+
+[lib]
+name = "r"
+path = "src/lib.rs"
+
+[dependencies]
+# Nothing in current
+
+[dev-dependencies]
+# For test, nothing in current
+
+
+[[test]]
+name = "tests"
+
+
