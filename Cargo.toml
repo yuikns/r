@@ -1,6 +1,6 @@
 [package]
 name = "r"
-version = "0.0.6"
+version = "0.0.7"
 authors = ["Yu Jing <yu@argcv.com>"]
 
 # A short blurb about the package. This is not rendered in any format when
@@ -24,7 +24,7 @@ keywords = ["utils", "ML", "IR"]
 # crates.io will validate the license provided against a whitelist of known
 # license identifiers from http://spdx.org/licenses/. Multiple licenses can
 # be separated with a `/`
-license = "MIT OR Apache-2.0"
+license = "MIT/Apache-2.0"
 
 # If a project is using a nonstandard license, then this key may be specified in
 # lieu of the above key and must point to a file relative to this manifest
@@ -36,10 +36,10 @@ name = "r"
 path = "src/lib.rs"
 
 [dependencies]
-# Nothing in current
+rand = "0.3.13"
 
 [dev-dependencies]
-# For test, nothing in current
+rand = "0.3.13"
 
 
 [[test]]

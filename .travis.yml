@@ -4,6 +4,11 @@ rust:
   - beta
   - stable
 
-matrix:
-  allow_failures:
-    - rust: nightly
+sudo: false
+
+script:
+  - cargo build --verbose
+  - cargo bench --verbose
+  - cargo test --verbose
+  - cargo doc
+  
