@@ -4,11 +4,13 @@
 //!
 
 
+use std::sync::atomic::{AtomicIsize, Ordering};
+
 pub struct Eval {
-    tp_sz: u64, // true positives
-    tn_sz: u64, // true negatives 
-    fp_sz: u64, // false positives
-    fn_sz: u64, // false negatives
+    tp_sz: AtomicIsize, // true positives
+    tn_sz: AtomicIsize, // true negatives 
+    fp_sz: AtomicIsize, // false positives
+    fn_sz: AtomicIsize, // false negatives
 }
 
 impl Eval {
@@ -22,7 +24,12 @@ impl Eval {
     /// let mut e = Eval::new();
     /// ```
     pub fn new() -> Eval {
-        Eval { tp_sz: 0u64, tn_sz: 0u64, fp_sz: 0u64, fn_sz: 0u64, }
+        Eval { 
+            tp_sz: AtomicIsize::new(0), 
+            tn_sz: AtomicIsize::new(0), 
+            fp_sz: AtomicIsize::new(0), 
+            fn_sz: AtomicIsize::new(0), 
+        }
     }
 
     /// Add A New Doc with Predicted Result and Actual Result
@@ -31,49 +38,52 @@ impl Eval {
             true =>
                 match actual {
                     true =>
-                        self.tp_sz = self.tp_sz + 1,
+                        self.tp_sz.fetch_add(1, Ordering::SeqCst),
                     false =>
-                        self.fp_sz = self.fp_sz + 1,
+                        self.fp_sz.fetch_add(1, Ordering::SeqCst),
                 },
             false =>
                 match actual {
                     true =>
-                        self.fn_sz = self.fn_sz + 1,
+                        self.fn_sz.fetch_add(1, Ordering::SeqCst),
                     false =>
-                        self.tn_sz = self.tn_sz + 1,
+                        self.tn_sz.fetch_add(1, Ordering::SeqCst),
                 },
-        }
+        };
     }
 
     /// Get Accuracy Result
     pub fn accuracy(&self) -> f64 {
-        let denominator:f64 = (self.tp_sz + self.fp_sz + self.tn_sz + self.fn_sz) as f64;
+        let denominator:f64 = (self.tp_sz.load(Ordering::SeqCst) + 
+                                self.fp_sz.load(Ordering::SeqCst) + 
+                                self.tn_sz.load(Ordering::SeqCst) + 
+                                self.fn_sz.load(Ordering::SeqCst)) as f64;
         if denominator == 0f64 {
             0f64
         } else {
-            let molecular:f64 = (self.tp_sz + self.tn_sz) as f64;
+            let molecular:f64 = (self.tp_sz.load(Ordering::SeqCst) + self.tn_sz.load(Ordering::SeqCst)) as f64;
             molecular / denominator
         }
     }
 
     /// Get Precision Result
     pub fn precision(&self) -> f64 {
-        if self.tp_sz + self.fp_sz == 0 {
+        if self.tp_sz.load(Ordering::SeqCst) + self.fp_sz.load(Ordering::SeqCst) == 0 {
             0.0f64
         } else {
-            let molecular:f64 = self.tp_sz as f64;
-            let denominator:f64 = (self.tp_sz + self.fp_sz) as f64;
+            let molecular:f64 = self.tp_sz.load(Ordering::SeqCst) as f64;
+            let denominator:f64 = (self.tp_sz.load(Ordering::SeqCst) + self.fp_sz.load(Ordering::SeqCst)) as f64;
             molecular / denominator
         }
     }
     
     /// Get Recall Result
     pub fn recall(&self) -> f64 {
-        if self.tp_sz + self.fn_sz == 0u64 {
+        if self.tp_sz.load(Ordering::SeqCst) + self.fn_sz.load(Ordering::SeqCst) == 0 {
             0.0f64
         } else {
-            let molecular:f64 = self.tp_sz as f64;
-            let denominator:f64 = (self.tp_sz + self.fn_sz) as f64;
+            let molecular:f64 = self.tp_sz.load(Ordering::SeqCst) as f64;
+            let denominator:f64 = (self.tp_sz.load(Ordering::SeqCst) + self.fn_sz.load(Ordering::SeqCst)) as f64;
             molecular / denominator
         }
     }
@@ -101,9 +111,9 @@ impl Eval {
     
     /// Reset All Counts
     pub fn reset(&mut self) {
-        self.tp_sz = 0u64;
-        self.tn_sz = 0u64;
-        self.fp_sz = 0u64;
-        self.fn_sz = 0u64;
+        self.tp_sz.store(0,Ordering::Relaxed);
+        self.tn_sz.store(0,Ordering::Relaxed);
+        self.fp_sz.store(0,Ordering::Relaxed);
+        self.fn_sz.store(0,Ordering::Relaxed);
     }
 }

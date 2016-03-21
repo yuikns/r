@@ -1,4 +1,3 @@
-
 use r::math;
 
 #[test]

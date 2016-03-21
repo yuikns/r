@@ -4,11 +4,7 @@
 //!
 #[allow(dead_code)]
 
-pub struct DataSet<X, Y> {
-    d: Vec<(Vec<X>,Y)>
-}
-
-
+pub mod common;
 pub mod eval;
 
 
