@@ -1,6 +1,6 @@
 [package]
 name = "r"
-version = "0.0.8"
+version = "0.0.9"
 authors = ["Yu Jing <yu@argcv.com>"]
 
 # A short blurb about the package. This is not rendered in any format when
@@ -18,7 +18,7 @@ readme = "README.md"
 
 # This is a small list of keywords used to categorize and search for this
 # package.
-keywords = ["Machine Learning"]
+keywords = []
 
 # This is a string description of the license for this package. Currently
 # crates.io will validate the license provided against a whitelist of known
